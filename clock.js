@@ -38,7 +38,7 @@ function displayTime() {
 }
     //clear the canvas before next second
     context.clearRect(0, 0, canvas.width, canvas.height); 
-    addDots();
+    addDotsAndImages();
     drawArm(h / 12, 8, 0.50, 'black'); // Hour
     drawArm(m / 60,  4, 0.65, 'blue'); // Minute
     drawArm(s / 60,  2, 0.90, 'red'); // Second
@@ -46,7 +46,7 @@ function displayTime() {
 /*
 * add dots in circle
 */
-function addDots(){
+function addDotsAndImages(){
     
     for(s=1;s<=60;s++){
         t=s/60;
