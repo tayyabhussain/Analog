@@ -16,7 +16,7 @@ Math.TowPi = 2 * Math.PI;
 */
 function displayTime() {
    var now = new Date();
-    var h = now.getHours();
+    var h = now.getHours()+1;
     var m = now.getMinutes();
     var s = now.getSeconds();
     
@@ -53,8 +53,8 @@ function addDots(){
         var armRadians = (Math.TowPi * t) - (Math.TowPi/4);
         var targetX = clockX + Math.cos(armRadians) * (1 * clockRadius);
         var targetY = clockY + Math.sin(armRadians) * (1 * clockRadius);
-        if(s==0 || s==15 || s==30 || s==45 || s==60){
-            context.lineWidth = 5;
+        if(s%5==0){
+            context.lineWidth = 3;
         }
         else{
             context.lineWidth = 1;
