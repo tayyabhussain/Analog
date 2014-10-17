@@ -1,0 +1,139 @@
+//////////////////////Parameters for Clock
+var pi2 = Math.PI * 2; //Leave it as it is
+
+var clockWidth = 400;
+var clockHeight = 400;
+var angleOfRotation = 20; //In Degree
+
+var hourHandColor = 'red'; // or alternatively #FF0000
+var hourHandWidth = 5;
+var hourHandLength = ((clockWidth + clockHeight) / 2) * 0.22; //22% of Diameter
+
+var minuteHandWidth = 3;
+var minuteHandColor = 'blue'; // or alternatively #0000FF
+var minuteHandLength = ((clockWidth + clockHeight) / 2) * 0.28;
+
+var secondHandColor = 'black';
+var secondHandWidth = 1;
+var secondHandLength = ((clockWidth + clockHeight) / 2) * 0.32;
+
+var clockImage = new Image();
+//Replace this link with any handless image of clock to change look
+clockImage.src = 'clock2.jpg';
+
+
+
+
+////////////////// Following are Evend Handlers for Buttons
+var canvas = document.getElementById('myCanvas');
+var context = canvas.getContext('2d');
+
+$("#updateClock").click(function () {
+    createClock();
+});
+$("#rotateClockwise").click(function () {
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, clockWidth, clockHeight);
+    context.translate(clockWidth / 2, clockHeight / 2);
+    context.rotate(angleOfRotation * Math.PI / 180);
+    context.translate(-clockWidth / 2, -clockHeight / 2);
+    createClock();
+});
+$("#rotateCounterClockwise").click(function () {
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, clockWidth, clockHeight);
+    context.translate(clockWidth / 2, clockHeight / 2);
+    context.rotate(-angleOfRotation * Math.PI / 180);
+    context.translate(-clockWidth / 2, -clockHeight / 2);
+    createClock();
+});
+
+
+///////////////////////// Following are Clock Lib Functions
+
+function lineToAngle(x, y, length, angle) {
+    return {
+        x: x + length * Math.cos(angle),
+        y: y + length * Math.sin(angle)
+    }
+}
+
+function timeToAngles() {
+
+    var os = 1 / 60, /// mini-steps
+        time = new Date(), /// get current time
+        h = time.getHours(), /// get current hour
+        m = time.getMinutes(), /// get current minutes
+        s = time.getSeconds(), /// get current seconds
+        ms = time.getMilliseconds(), /// get current milliseconds
+        sa, ma, ha; /// for calc. angles
+
+    sa = pi2 * ((s / 60) + (os * ms * 0.001)); /// second's radian angle
+    ma = pi2 * ((m / 60) + (os * s / 60)); /// minute's angle
+    ha = pi2 * (((h % 12) / 12) + ((1 / 12) * m / 60)); /// hour's angle
+
+    return {
+        h: ha - 1.57079633, //Since angle is 90' rotated
+        m: ma - 1.57079633,
+        s: sa - 1.57079633
+    }
+}
+
+function addBackgroundImage() {
+    context.drawImage(clockImage, 0, 0, clockWidth, clockHeight);
+}
+
+function drawHourHand() {
+    var angles = timeToAngles();
+    pos = lineToAngle(clockWidth / 2, clockHeight / 2, hourHandLength, angles.h);
+    context.strokeStyle = hourHandColor;
+    context.beginPath();
+    context.moveTo(clockWidth / 2, clockHeight / 2); // centre
+    context.lineTo(pos.x, pos.y);
+    context.lineWidth = hourHandWidth;
+    context.stroke();
+}
+
+function drawMinuteHand() {
+    var angles = timeToAngles();
+    pos = lineToAngle(clockWidth / 2, clockHeight / 2, minuteHandLength, angles.m);
+    context.strokeStyle = minuteHandColor;
+    context.beginPath();
+    context.moveTo(clockWidth / 2, clockHeight / 2);
+    context.lineTo(pos.x, pos.y);
+    context.lineWidth = minuteHandWidth;
+    context.stroke();
+}
+
+function drawSecondHand() {
+    var angles = timeToAngles();
+    pos = lineToAngle(clockWidth / 2, clockHeight / 2, secondHandLength, angles.s);
+    context.strokeStyle = secondHandColor;
+    context.beginPath();
+    context.moveTo(clockWidth / 2, clockHeight / 2);
+    context.lineTo(pos.x, pos.y);
+    context.lineWidth = secondHandWidth;
+    context.stroke();
+}
+
+function writeBrandName() {
+    //You can write something here like 'Quartz' 
+}
+
+function createClock() {
+    addBackgroundImage();
+    writeBrandName();
+    drawHourHand();
+    drawMinuteHand();
+    drawSecondHand();
+}
+
+function clockApp() {
+    createClock();
+    //Comment this line to turn off auto update
+    setInterval(createClock, 1000); //1 Sec auto update
+}
+
+clockApp(); // Starting Application

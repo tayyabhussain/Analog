@@ -1,0 +1,15 @@
+<html>
+<head>
+	<title>Clock by Tayyab Hussain</title>
+<head>
+<body>
+	<canvas id="clock" width="250" height="250">
+    Browser does not support canvas. :(
+</canvas>
+	
+
+	<script src="jquery-1.7.2.js"></script>
+	<script src="clock.js"></script>
+		
+<body>
+</html>
