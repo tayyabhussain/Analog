@@ -97,5 +97,23 @@ clockApp();
 
 //******************** Handeling Events
 
+$("#rotateClockwise").click(function () {
+     var canvas = document.getElementById('clock');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate(20 * Math.PI / 180);
+    context.translate(-canvas.width / 2, -canvas.height / 2);
+    clockApp();
+});
+$("#rotateCounterClockwise").click(function () {
+    var canvas = document.getElementById('clock');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate(-20 * Math.PI / 180);
+    context.translate(-canvas.width / 2, -canvas.height / 2);
+    clockApp();
+});
 
  
