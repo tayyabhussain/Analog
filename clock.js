@@ -30,7 +30,7 @@ function displayTime() {
         
       //  context.lineWidth = armThickness;
         context.strokeStyle = armColor;
- 
+        context.lineWidth=armThickness;
         context.beginPath();
         context.moveTo(clockX, clockY); // Starting point of line
         context.lineTo(targetX, targetY); // to the ending point of line
@@ -71,11 +71,19 @@ function addDotsAndImages(){
             img.src= './folder/12.png';
             context.drawImage(img, targetX-6, targetY-7, 15, 15);
         }
+        else if(s%5==0){
+            context.strokeStyle = 'black';
+            context.lineWidth = 3;
+            context.beginPath();
+            context.arc(targetX,targetY,1,0,Math.TowPi);
+            context.stroke();
+        }
         else{
-        context.strokeStyle = 'black';
-        context.beginPath();
-        context.arc(targetX,targetY,1,0,Math.TowPi);
-        context.stroke();
+            context.lineWidth = 1;
+            context.strokeStyle = 'black';
+            context.beginPath();
+            context.arc(targetX,targetY,1,0,Math.TowPi);
+            context.stroke();
         }
     }
 }
